@@ -1,0 +1,440 @@
+{
+  "split": "test",
+  "rows": 1500,
+  "metrics": {
+    "truss_family": {
+      "rows_scored": 1500,
+      "accuracy": 0.9873333333333333,
+      "macro_f1": 0.9356377068380433,
+      "weighted_f1": 0.988232959948747,
+      "macro_precision": 0.9197847420069643,
+      "macro_recall": 0.9596175478065241,
+      "class_metrics": {
+        "Box Truss": {
+          "support": 254,
+          "precision": 0.9835390946502057,
+          "recall": 0.9409448818897638,
+          "f1": 0.9617706237424547
+        },
+        "Full-A Truss": {
+          "support": 932,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "Half-A Truss": {
+          "support": 153,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "Plain Pipe": {
+          "support": 28,
+          "precision": 0.6153846153846154,
+          "recall": 0.8571428571428571,
+          "f1": 0.7164179104477612
+        },
+        "Semi-Truss": {
+          "support": 133,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      "labels_scored": [
+        "Box Truss",
+        "Full-A Truss",
+        "Half-A Truss",
+        "Plain Pipe",
+        "Semi-Truss"
+      ]
+    },
+    "rise_height_ft": {
+      "rows_scored": 1500,
+      "mae": 0.0021295809523872917,
+      "rmse": 0.004678504267059263,
+      "r2": 0.9999983569406187,
+      "max_absolute_error": 0.03477142857142024
+    },
+    "frame_chord_pipe_size": {
+      "rows_scored": 1500,
+      "accuracy": 0.9826666666666667,
+      "macro_f1": 0.9735968656625049,
+      "weighted_f1": 0.9829012870720162,
+      "macro_precision": 0.9700253329564142,
+      "macro_recall": 0.9774477114772747,
+      "class_metrics": {
+        "1.5 x 1.5": {
+          "support": 114,
+          "precision": 0.8677685950413223,
+          "recall": 0.9210526315789473,
+          "f1": 0.8936170212765957
+        },
+        "2 x 2": {
+          "support": 625,
+          "precision": 0.9967689822294022,
+          "recall": 0.9872,
+          "f1": 0.9919614147909968
+        },
+        "3 x 1.5": {
+          "support": 141,
+          "precision": 0.9647887323943662,
+          "recall": 0.9716312056737588,
+          "f1": 0.9681978798586572
+        },
+        "3 x 6": {
+          "support": 27,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "4 x 2": {
+          "support": 329,
+          "precision": 0.9908256880733946,
+          "recall": 0.9848024316109423,
+          "f1": 0.9878048780487805
+        },
+        "4 x 4": {
+          "support": 264,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      "labels_scored": [
+        "1.5 x 1.5",
+        "2 x 2",
+        "3 x 1.5",
+        "3 x 6",
+        "4 x 2",
+        "4 x 4"
+      ]
+    },
+    "web_pipe_size": {
+      "rows_scored": 1500,
+      "accuracy": 0.9873333333333333,
+      "macro_f1": 0.93456066562401,
+      "weighted_f1": 0.9883581389389828,
+      "macro_precision": 0.9068760667351091,
+      "macro_recall": 0.9761391274349687,
+      "class_metrics": {
+        "1.5 x 1.5": {
+          "support": 858,
+          "precision": 0.9964539007092199,
+          "recall": 0.9825174825174825,
+          "f1": 0.9894366197183099
+        },
+        "2 x 2": {
+          "support": 323,
+          "precision": 0.9969040247678018,
+          "recall": 0.9969040247678018,
+          "f1": 0.9969040247678018
+        },
+        "3 x 3": {
+          "support": 291,
+          "precision": 1.0,
+          "recall": 0.9965635738831615,
+          "f1": 0.9982788296041308
+        },
+        "None (Single Rafter)": {
+          "support": 28,
+          "precision": 0.6341463414634146,
+          "recall": 0.9285714285714286,
+          "f1": 0.7536231884057971
+        }
+      },
+      "labels_scored": [
+        "1.5 x 1.5",
+        "2 x 2",
+        "3 x 3",
+        "None (Single Rafter)"
+      ]
+    },
+    "web_spacing_ft": {
+      "rows_scored": 1500,
+      "accuracy": 0.9886666666666667,
+      "macro_f1": 0.9151925851240653,
+      "weighted_f1": 0.9896994359737626,
+      "macro_precision": 0.8774138598528843,
+      "macro_recall": 0.971486807328764,
+      "class_metrics": {
+        "0": {
+          "support": 28,
+          "precision": 0.6341463414634146,
+          "recall": 0.9285714285714286,
+          "f1": 0.7536231884057971
+        },
+        "2": {
+          "support": 409,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "2.5": {
+          "support": 1063,
+          "precision": 0.9980952380952381,
+          "recall": 0.9858889934148636,
+          "f1": 0.9919545669663985
+        }
+      },
+      "labels_scored": [
+        "0",
+        "2",
+        "2.5"
+      ]
+    },
+    "web_intermediate_member_count": {
+      "rows_scored": 1500,
+      "mae": 0.059333333333333335,
+      "rmse": 0.48511167099270386,
+      "r2": 0.9975513459402777,
+      "max_absolute_error": 6.0
+    },
+    "web_total_member_count": {
+      "rows_scored": 1500,
+      "mae": 0.08133333333333333,
+      "rmse": 0.6870225614927067,
+      "r2": 0.9953372436443338,
+      "max_absolute_error": 8.0
+    },
+    "truss_spacing_ft": {
+      "rows_scored": 1500,
+      "mae": 0.005125619047622098,
+      "rmse": 0.027367820509785253,
+      "r2": 0.9995764796924022,
+      "max_absolute_error": 0.5422571428571397
+    },
+    "truss_total_count": {
+      "rows_scored": 1500,
+      "mae": 0.0033333333333333335,
+      "rmse": 0.05773502691896258,
+      "r2": 0.9999108193182622,
+      "max_absolute_error": 1.0
+    },
+    "column_pipe_size": {
+      "rows_scored": 1500,
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "weighted_f1": 1.0,
+      "macro_precision": 1.0,
+      "macro_recall": 1.0,
+      "class_metrics": {
+        "3 x 3": {
+          "support": 688,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "4 x 4": {
+          "support": 570,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "6 x 6": {
+          "support": 242,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      "labels_scored": [
+        "3 x 3",
+        "4 x 4",
+        "6 x 6"
+      ]
+    },
+    "column_total_count": {
+      "rows_scored": 1500,
+      "mae": 0.010666666666666666,
+      "rmse": 0.1414213562373095,
+      "r2": 0.9998527618519544,
+      "max_absolute_error": 3.0
+    },
+    "column_spacing_along_length_ft": {
+      "rows_scored": 1500,
+      "mae": 0.009352819047622267,
+      "rmse": 0.08345172837459615,
+      "r2": 0.997593356410621,
+      "max_absolute_error": 2.2300000000000004
+    },
+    "column_spacing_across_span_ft": {
+      "rows_scored": 1500,
+      "mae": 0.008288438095238247,
+      "rmse": 0.019723103604203276,
+      "r2": 0.9999983883243803,
+      "max_absolute_error": 0.147942857142759
+    },
+    "beam_pipe_size": {
+      "rows_scored": 1500,
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "weighted_f1": 1.0,
+      "macro_precision": 1.0,
+      "macro_recall": 1.0,
+      "class_metrics": {
+        "3 x 3": {
+          "support": 688,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "4 x 4": {
+          "support": 570,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "6 x 6": {
+          "support": 242,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      "labels_scored": [
+        "3 x 3",
+        "4 x 4",
+        "6 x 6"
+      ]
+    },
+    "beam_total_count": {
+      "rows_scored": 1500,
+      "mae": 0.0,
+      "rmse": 0.0,
+      "r2": 1.0,
+      "max_absolute_error": 0.0
+    },
+    "purlin_pipe_size": {
+      "rows_scored": 1500,
+      "accuracy": 0.9993333333333333,
+      "macro_f1": 0.9986696890189849,
+      "weighted_f1": 0.9993318261235158,
+      "macro_precision": 0.9995744680851064,
+      "macro_recall": 0.9977777777777778,
+      "class_metrics": {
+        "1.5 x 1.5 (P002)": {
+          "support": 90,
+          "precision": 1.0,
+          "recall": 0.9888888888888889,
+          "f1": 0.994413407821229
+        },
+        "1.5 x 2.5 (P005)": {
+          "support": 427,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "2 x 4 / 4 x 2 (P008)": {
+          "support": 100,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "3 x 1.5 (P006)": {
+          "support": 414,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "3/4 x 1.5 (P001)": {
+          "support": 469,
+          "precision": 0.997872340425532,
+          "recall": 1.0,
+          "f1": 0.9989350372736954
+        }
+      },
+      "labels_scored": [
+        "1.5 x 1.5 (P002)",
+        "1.5 x 2.5 (P005)",
+        "2 x 4 / 4 x 2 (P008)",
+        "3 x 1.5 (P006)",
+        "3/4 x 1.5 (P001)"
+      ]
+    },
+    "purlin_orientation": {
+      "rows_scored": 1500,
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "weighted_f1": 1.0,
+      "macro_precision": 1.0,
+      "macro_recall": 1.0,
+      "class_metrics": {
+        "Larger 1.5\" face upward (flat) for broad sheet seating and screw grip": {
+          "support": 60,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "Larger 1.5\" face upward (flat) for tile nib resting and fastening": {
+          "support": 409,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "Larger 2.5\" face upward (flat) for broad sheet seating and screw grip": {
+          "support": 427,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "Larger 3.0\" face upward (flat) for broad sheet seating and screw grip": {
+          "support": 414,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "Rotated 2 x 4 orientation (4.0\" face upward flat, 2.0\" vertical depth) for broad sheet seating": {
+          "support": 100,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "Square 1.5\" face upward (flat) for broad sheet seating and screw grip": {
+          "support": 90,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      "labels_scored": [
+        "Larger 1.5\" face upward (flat) for broad sheet seating and screw grip",
+        "Larger 1.5\" face upward (flat) for tile nib resting and fastening",
+        "Larger 2.5\" face upward (flat) for broad sheet seating and screw grip",
+        "Larger 3.0\" face upward (flat) for broad sheet seating and screw grip",
+        "Rotated 2 x 4 orientation (4.0\" face upward flat, 2.0\" vertical depth) for broad sheet seating",
+        "Square 1.5\" face upward (flat) for broad sheet seating and screw grip"
+      ]
+    },
+    "purlin_spacing_ft": {
+      "rows_scored": 1500,
+      "mae": 0.0035174299047634997,
+      "rmse": 0.02403584191053771,
+      "r2": 0.9996859758161568,
+      "max_absolute_error": 0.7374228571428616
+    }
+  },
+  "target_types": {
+    "truss_family": true,
+    "rise_height_ft": false,
+    "frame_chord_pipe_size": true,
+    "web_pipe_size": true,
+    "web_spacing_ft": true,
+    "web_intermediate_member_count": false,
+    "web_total_member_count": false,
+    "truss_spacing_ft": false,
+    "truss_total_count": false,
+    "column_pipe_size": true,
+    "column_total_count": false,
+    "column_spacing_along_length_ft": false,
+    "column_spacing_across_span_ft": false,
+    "beam_pipe_size": true,
+    "beam_total_count": false,
+    "purlin_pipe_size": true,
+    "purlin_orientation": true,
+    "purlin_spacing_ft": false
+  },
+  "auto_family_readiness_warning": null,
+  "warning": "This test split must remain a final evaluation set. Do not use its metrics to select models or tune hyperparameters.",
+  "note": "Sequential predictions: predicted family feeds rise model; predicted family and rise feed design models. Categorical labels are decoded before scoring. predicted_truss_family_confidence is the model's maximum class probability, not a calibrated probability."
+}

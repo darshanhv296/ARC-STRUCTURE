@@ -1,0 +1,89 @@
+{
+  "schema_version": "truss_hybrid_v4",
+  "master_file": "C:\\TRUSS\\DATASET\\truss_ai_complete_dataset_10000_purlin_remainder_fixed.csv",
+  "original_rows": 10000,
+  "retained_rows": 10000,
+  "dropped_missing_rows": 0,
+  "dropped_invalid_numeric_or_domain_rows": 0,
+  "dropped_duplicate_id_rows": 0,
+  "single_rafter_rows": 198,
+  "single_rafter_rows_corrected_to_zero": 0,
+  "split_sizes": {
+    "train": 7000,
+    "validation": 1500,
+    "test": 1500
+  },
+  "group_strategy": "site_width_ft+site_length_ft",
+  "independent_groups": 10000,
+  "group_overlap_counts": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "site_geometry_overlap_counts": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "overhang_ft_unique_values": [
+    1.5
+  ],
+  "overhang_warning": "overhang_ft is retained for audit only and excluded from model inputs. The model cannot learn overhang effects from this feature.",
+  "roof_configuration_detail_available": true,
+  "base_features": [
+    "site_width_ft",
+    "site_length_ft",
+    "roofing_type",
+    "roof_sides",
+    "center_support_present",
+    "column_height_B_ft",
+    "roof_configuration_detail"
+  ],
+  "family_target": "truss_family",
+  "rise_features": [
+    "site_width_ft",
+    "site_length_ft",
+    "roofing_type",
+    "roof_sides",
+    "center_support_present",
+    "column_height_B_ft",
+    "roof_configuration_detail",
+    "truss_family"
+  ],
+  "rise_target": "rise_height_ft",
+  "design_features": [
+    "site_width_ft",
+    "site_length_ft",
+    "roofing_type",
+    "roof_sides",
+    "center_support_present",
+    "column_height_B_ft",
+    "roof_configuration_detail",
+    "truss_family",
+    "rise_height_ft"
+  ],
+  "design_targets": [
+    "frame_chord_pipe_size",
+    "web_pipe_size",
+    "web_spacing_ft",
+    "web_intermediate_member_count",
+    "web_total_member_count",
+    "truss_spacing_ft",
+    "truss_total_count",
+    "column_pipe_size",
+    "column_total_count",
+    "column_spacing_along_length_ft",
+    "column_spacing_across_span_ft",
+    "beam_pipe_size",
+    "beam_total_count",
+    "purlin_pipe_size",
+    "purlin_orientation",
+    "purlin_spacing_ft"
+  ],
+  "seed": 42,
+  "notes": [
+    "Only model inputs and targets plus IDs are included in split CSVs; downstream derived geometry/BOM fields remain in the master dataset and are calculated by the design engine.",
+    "The source dataset convention is site_width_ft == horizontal_span_ft and site_length_ft == building_length_ft. Do not silently swap these when mapping UI fields.",
+    "Test split is held out and must not be used for model selection."
+  ]
+}
