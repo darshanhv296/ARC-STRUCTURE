@@ -22,17 +22,18 @@ The project combines a Streamlit interface, target-specific ML models, determini
 5. [Repository Structure — Inline File Comments](#5-repository-structure--inline-file-comments)
 6. [End-to-End Execution Flow](#6-end-to-end-execution-flow)
 7. [Machine-Learning Models and Evaluation](#7-machine-learning-models-and-evaluation)
-8. [Model Artifacts](#8-model-artifacts)
+8. [Model Artifacts and Google Drive Setup](#8-model-artifacts-and-google-drive-setup)
 9. [Dataset and Preprocessing](#9-dataset-and-preprocessing)
 10. [Installation](#10-installation)
 11. [Run the Streamlit Application](#11-run-the-streamlit-application)
-12. [Preprocess, Train, Validate, and Test](#12-preprocess-train-validate-and-test)
-13. [Design Generation, Pipe Catalogue, and BOM](#13-design-generation-pipe-catalogue-and-bom)
-14. [PDF Export and Result History](#14-pdf-export-and-result-history)
-15. [Configuration and Data Contracts](#15-configuration-and-data-contracts)
-16. [Troubleshooting](#16-troubleshooting)
-17. [Security, Reproducibility, and Engineering Limitations](#17-security-reproducibility-and-engineering-limitations)
-18. [License](#18-license)
+12. [Download the Models from Google Drive](#12-download-the-models-from-google-drive)
+13. [Preprocess, Train, Validate, and Test](#13-preprocess-train-validate-and-test)
+14. [Design Generation, Pipe Catalogue, and BOM](#14-design-generation-pipe-catalogue-and-bom)
+15. [PDF Export and Result History](#15-pdf-export-and-result-history)
+16. [Configuration and Data Contracts](#16-configuration-and-data-contracts)
+17. [Troubleshooting](#17-troubleshooting)
+18. [Security, Reproducibility, and Engineering Limitations](#18-security-reproducibility-and-engineering-limitations)
+19. [License](#19-license)
 
 ---
 
@@ -174,125 +175,126 @@ files/validate_truss.py  files/test_truss.py
 
 ## 5. Repository Structure — Inline File Comments
 
-**The comments are intentionally placed on the same line as each file/folder entry wherever practical, rather than underneath it.** The structure below is based on the supplied project ZIP and the separate screenshot of `models/truss_hybrid_v4/`.
+**Every explanation is placed on the same line as its file or folder entry wherever practical.** The structure is based on the supplied project archive and the separate model-folder screenshot. The model folder is downloaded separately from Google Drive, as described below.
 
 ```text
 TRUSS/
-├── DATASET/                                                     # Master datasets used by preprocessing and training.
-│   └── truss_ai_complete_dataset_10000_purlin_remainder_fixed.csv  # Preferred master CSV; verify its actual row count and back it up before editing.
+├── DATASET/                                                       # Master datasets used for preprocessing and training.
+│   └── truss_ai_complete_dataset_10000_purlin_remainder_fixed.csv # Preferred master CSV; verify row count and back it up before editing.
 │
-├── DESIGNS/                                                    # Reference illustrations used for supported truss-family examples.
-│   ├── BOX.png                                                 # Box Truss profile reference.
-│   ├── BOX_TRUSS_1SIDE.png                                     # One-side Box Truss variant reference.
-│   ├── FULL A TRUSS.png                                        # Full-A Truss profile reference.
-│   ├── HALF_A.png                                              # Half-A profile reference.
-│   ├── HALF_A_TRUSS.png                                        # Additional Half-A Truss reference.
-│   ├── SEMI_TRUSS.png                                          # Semi-Truss profile reference.
-│   ├── ZIG-ZAG-A.png                                           # Zig-Zag-A layout reference.
-│   ├── ZIGZAG_BEAM_1SIDE.png                                   # One-side Zig-Zag beam reference.
-│   ├── ZIG_ZAG_BOX.png                                         # Zig-Zag Box layout reference.
-│   └── ZIG_ZAG_HALF_A.png                                      # Zig-Zag Half-A layout reference.
+├── DESIGNS/                                                      # Reference illustrations for truss-family examples.
+│   ├── BOX.png                                                   # Box Truss profile reference.
+│   ├── BOX_TRUSS_1SIDE.png                                       # One-side Box Truss variant reference.
+│   ├── FULL A TRUSS.png                                          # Full-A Truss profile reference.
+│   ├── HALF_A.png                                                # Half-A profile reference.
+│   ├── HALF_A_TRUSS.png                                          # Additional Half-A Truss reference.
+│   ├── SEMI_TRUSS.png                                            # Semi-Truss profile reference.
+│   ├── ZIG-ZAG-A.png                                             # Zig-Zag-A layout reference.
+│   ├── ZIGZAG_BEAM_1SIDE.png                                     # One-side Zig-Zag beam reference.
+│   ├── ZIG_ZAG_BOX.png                                           # Zig-Zag Box layout reference.
+│   └── ZIG_ZAG_HALF_A.png                                        # Zig-Zag Half-A layout reference.
 │
-├── files/                                                      # Dataset processing, model training, evaluation, and shared ML logic.
-│   ├── filter.py                                               # Dataset filtering/inspection utility; inspect supported arguments before use.
-│   ├── preprocess_truss.py                                     # Validates the master CSV and generates train/validation/test splits plus schema reports.
-│   ├── train_truss.py                                          # Trains target-specific candidates and selects models using validation metrics.
-│   ├── validate_truss.py                                      # Evaluates saved model bundles on validation.csv and writes metrics/predictions.
-│   ├── test_truss.py                                           # Evaluates saved bundles on held-out test.csv; keep the test set out of tuning.
-│   └── truss_common.py                                         # Training-side feature/target schema, paths, encoders, and shared ML helpers.
+├── files/                                                        # Dataset processing, training, evaluation, and shared ML logic.
+│   ├── filter.py                                                 # Dataset filtering/inspection utility; inspect supported arguments before use.
+│   ├── preprocess_truss.py                                       # Validates the master CSV and generates splits and schema reports.
+│   ├── train_truss.py                                            # Trains target-specific candidates and selects models using validation metrics.
+│   ├── validate_truss.py                                         # Evaluates saved bundles on validation.csv and writes metrics/predictions.
+│   ├── test_truss.py                                             # Evaluates saved bundles on held-out test.csv; keep test data out of tuning.
+│   └── truss_common.py                                           # Training-side feature/target schema, paths, and shared ML helpers.
 │
-├── main/                                                       # Streamlit UI, inference, design logic, BOM, reporting, and app-side utilities.
-│   ├── calculator.py                                           # Calculates preliminary BOM quantities from generated design data and the pipe catalogue.
-│   ├── config.py                                               # Resolves project paths, model directory, results directory, and preprocessed-data directory.
-│   ├── design.py                                               # Generates candidate design geometry/visualization and applies implemented design rules.
-│   ├── design_options.py                                       # Evaluates supported design/layout alternatives; not a structural safety certification.
-│   ├── main.py                                                 # Streamlit entry point; collects inputs and orchestrates inference, design, BOM, history, and reports.
-│   ├── master datatset.csv                                    # Additional master/reference CSV; filename has a typo and is not automatically the active training source.
-│   ├── model.py                                                # Loads metadata/model bundles and performs staged predictions and output decoding.
-│   ├── pdf_export.py                                           # Creates PDF output from the result/design data supplied by the application.
-│   ├── pipes.csv                                               # Pipe/section catalogue; keep expected columns/units and verify values against trusted specifications.
-│   ├── reference_designs/                                      # Reference illustrations used by the application where configured.
-│   │   ├── BOX.png                                             # Box Truss reference asset.
-│   │   ├── BOX_TRUSS_1SIDE.png                                 # One-side Box Truss reference asset.
-│   │   ├── FULL A TRUSS.png                                    # Full-A Truss reference asset.
-│   │   ├── HALF_A.png                                          # Half-A Truss reference asset.
-│   │   └── SEMI_TRUSS.png                                      # Semi-Truss reference asset.
-│   ├── result_history.py                                       # Cache-key, exact-result lookup, persistence, and similar-result history helpers.
-│   ├── run_regression.py                                       # Regression/smoke-test utility; inspect its cases/options before running.
-│   └── truss_common.py                                         # Application-side shared helpers; separate from files/truss_common.py.
+├── main/                                                         # Streamlit UI, inference, design logic, BOM, and reporting.
+│   ├── calculator.py                                             # Calculates preliminary BOM quantities from design data and pipe catalogue.
+│   ├── config.py                                                 # Defines project/model/results/preprocessed directory paths.
+│   ├── design.py                                                 # Generates candidate design geometry/visualization and applies implemented rules.
+│   ├── design_options.py                                         # Evaluates supported design/layout alternatives; not a safety certification.
+│   ├── main.py                                                   # Streamlit entry point; coordinates inputs, inference, design, BOM, history, and reports.
+│   ├── master datatset.csv                                      # Additional master/reference CSV; filename has a typo and is not automatically the active source.
+│   ├── model.py                                                  # Loads model metadata/bundles and performs staged predictions and decoding.
+│   ├── pdf_export.py                                             # Creates PDF output from application result/design data.
+│   ├── pipes.csv                                                 # Pipe/section catalogue; preserve columns/units and verify supplier specifications.
+│   ├── reference_designs/                                        # Reference images used by the application where configured.
+│   │   ├── BOX.png                                               # Box Truss reference asset.
+│   │   ├── BOX_TRUSS_1SIDE.png                                   # One-side Box Truss reference asset.
+│   │   ├── FULL A TRUSS.png                                      # Full-A Truss reference asset.
+│   │   ├── HALF_A.png                                            # Half-A Truss reference asset.
+│   │   └── SEMI_TRUSS.png                                        # Semi-Truss reference asset.
+│   ├── result_history.py                                         # Cache-key, exact-result lookup, persistence, and similar-result helpers.
+│   ├── run_regression.py                                         # Regression/smoke-test utility; inspect test cases/options before running.
+│   └── truss_common.py                                           # Application-side helpers, separate from files/truss_common.py.
 │
-├── preprocessed/                                               # Generated dataset splits and preprocessing metadata.
-│   ├── columns.json                                            # Schema/column metadata for the prepared data.
-│   ├── preprocessing_report.json                               # Machine-readable preprocessing and split report; review after regeneration.
-│   ├── reference_master_32_columns.csv                         # Reference master CSV with 32 columns; not automatically the active source.
-│   ├── train.csv                                               # Training split used to fit candidate estimators.
-│   ├── validation.csv                                          # Validation split used for model comparison/selection.
-│   └── test.csv                                                # Held-out split for final evaluation.
+├── preprocessed/                                                 # Generated dataset splits and preprocessing metadata.
+│   ├── columns.json                                              # Schema/column metadata for prepared data.
+│   ├── preprocessing_report.json                                 # Machine-readable preprocessing/split report.
+│   ├── reference_master_32_columns.csv                           # Reference master CSV with 32 columns; not automatically the active source.
+│   ├── train.csv                                                 # Training split for fitting candidate estimators.
+│   ├── validation.csv                                            # Validation split for model comparison/selection.
+│   └── test.csv                                                  # Held-out split for final evaluation.
 │
-├── results/                                                    # Generated metrics, predictions, and runtime output.
-│   ├── truss_hybrid_v4/                                        # Evaluation artifacts for the V4 model pipeline.
-│   │   ├── training_summary.json                               # Summary of the training run and selected candidates.
-│   │   ├── validation_metrics.json                             # Per-target validation metrics.
-│   │   ├── validation_predictions.csv                          # Validation predictions and target values for error analysis.
-│   │   ├── test_metrics.json                                   # Per-target held-out test metrics.
-│   │   └── test_predictions.csv                                # Test predictions and target values for error analysis.
-│   └── browser_sessions/                                       # Runtime session files created by the UI when used; may not exist until first run.
-│       └── *.json                                              # Session-specific state; do not publish private/user-supplied design data.
+├── results/                                                      # Generated metrics, predictions, and runtime output.
+│   ├── truss_hybrid_v4/                                          # Evaluation outputs for the V4 model pipeline.
+│   │   ├── training_summary.json                                 # Training-run summary and selected candidate information.
+│   │   ├── validation_metrics.json                               # Per-target validation metrics.
+│   │   ├── validation_predictions.csv                            # Validation predictions for error analysis.
+│   │   ├── test_metrics.json                                     # Per-target held-out test metrics.
+│   │   └── test_predictions.csv                                  # Test predictions for error analysis.
+│   └── browser_sessions/                                         # Runtime folder that may be created by the UI.
+│       └── *.json                                                # Session-specific state; avoid publishing private design data.
 │
-├── models/                                                     # Saved model bundles; required for inference but absent from the supplied ZIP.
-│   └── truss_hybrid_v4/                                        # Model version expected by main/config.py and the inference loader.
-│       ├── beam_pipe_size.joblib                               # Predicts beam pipe size.
-│       ├── beam_total_count.joblib                             # Predicts total beam count.
-│       ├── column_pipe_size.joblib                             # Predicts column pipe size.
-│       ├── column_spacing_across_span_ft.joblib                # Predicts column spacing across the span.
-│       ├── column_spacing_along_length_ft.joblib               # Predicts column spacing along building length.
-│       ├── column_total_count.joblib                           # Predicts total column count.
-│       ├── frame_chord_pipe_size.joblib                        # Predicts frame/chord pipe size.
-│       ├── purlin_orientation.joblib                            # Predicts purlin orientation.
-│       ├── purlin_pipe_size.joblib                              # Predicts purlin pipe size.
-│       ├── purlin_spacing_ft.joblib                             # Predicts purlin spacing.
-│       ├── rise_height_ft.joblib                                # Predicts truss rise height.
-│       ├── truss_family.joblib                                   # Predicts the truss-family category.
-│       ├── truss_spacing_ft.joblib                               # Predicts spacing between trusses.
-│       ├── truss_total_count.joblib                              # Predicts total truss count.
-│       ├── web_intermediate_member_count.joblib                  # Predicts intermediate web-member count.
-│       ├── web_pipe_size.joblib                                  # Predicts web-member pipe size.
-│       ├── web_spacing_ft.joblib                                 # Predicts web spacing; inspect metadata for target handling.
-│       ├── web_total_member_count.joblib                         # Predicts total web-member count.
-│       └── pipeline_metadata.json                                # Model manifest; filenames/schema must match the saved bundles.
+├── models/                                                       # Downloaded separately from Google Drive; not stored in GitHub.
+│   └── truss_hybrid_v4/                                          # Exact model directory expected by main/config.py and the inference loader.
+│       ├── beam_pipe_size.joblib                                 # Predicts beam pipe size.
+│       ├── beam_total_count.joblib                               # Predicts total beam count.
+│       ├── column_pipe_size.joblib                               # Predicts column pipe size.
+│       ├── column_spacing_across_span_ft.joblib                  # Predicts column spacing across the span.
+│       ├── column_spacing_along_length_ft.joblib                 # Predicts column spacing along building length.
+│       ├── column_total_count.joblib                             # Predicts total column count.
+│       ├── frame_chord_pipe_size.joblib                          # Predicts frame/chord pipe size.
+│       ├── purlin_orientation.joblib                              # Predicts purlin orientation.
+│       ├── purlin_pipe_size.joblib                                # Predicts purlin pipe size.
+│       ├── purlin_spacing_ft.joblib                               # Predicts purlin spacing.
+│       ├── rise_height_ft.joblib                                  # Predicts truss rise height.
+│       ├── truss_family.joblib                                     # Predicts truss-family category.
+│       ├── truss_spacing_ft.joblib                                 # Predicts spacing between trusses.
+│       ├── truss_total_count.joblib                                # Predicts total truss count.
+│       ├── web_intermediate_member_count.joblib                    # Predicts intermediate web-member count.
+│       ├── web_pipe_size.joblib                                    # Predicts web-member pipe size.
+│       ├── web_spacing_ft.joblib                                   # Predicts web spacing; check metadata for target handling.
+│       ├── web_total_member_count.joblib                           # Predicts total web-member count.
+│       └── pipeline_metadata.json                                  # Manifest; must match the downloaded model bundles.
 │
-└── README.md                                                   # This documentation: architecture, inline file map, setup, ML workflow, use, and limitations.
+└── README.md                                                     # Project guide: architecture, file comments, setup, model download, training, and limitations.
 ```
 
-### Structure notes
+### Folder structure notes
 
-- The model files above were visible in your screenshot but were **not included in the supplied ZIP**. Copy the matching files and metadata into `models/truss_hybrid_v4/` before inference.
-- `main/config.py` and the training-side shared utilities must agree on the model output path.
-- `main/truss_common.py` and `files/truss_common.py` are separate modules. Update the correct module(s) when changing schema or inference behavior.
-- The two reference-image folders overlap. Keep both if different code paths use them.
-- `results/browser_sessions/` is a runtime folder and may be created only after the UI is run.
+- The `models/` directory is intentionally **not committed to GitHub**. Users download it from the Google Drive link below.
+- Download the **`models` folder**, specifically `models/truss_hybrid_v4/`, not a folder named `hybrid_truss`.
+- Keep `pipeline_metadata.json` alongside all model bundles.
+- `main/config.py` and the inference loader expect the `truss_hybrid_v4` directory name. Do not rename it unless you also update the code.
+- `main/truss_common.py` and `files/truss_common.py` are separate modules.
+- `DESIGNS/` and `main/reference_designs/` contain overlapping reference images; keep both if the code uses both paths.
 
 ---
 
 ## 6. End-to-End Execution Flow
 
-### 6.1 Training
+### Training
 
 1. `files/preprocess_truss.py` reads the preferred master dataset.
 2. It validates the schema/data and generates train, validation, and test splits.
-3. `files/train_truss.py` trains target-specific candidates.
+3. `files/train_truss.py` trains target-specific candidate models.
 4. Candidate selection uses validation data.
-5. The chosen bundles and `pipeline_metadata.json` are saved to the configured model directory.
-6. Validation/test scripts evaluate the saved bundles and write metrics/prediction files.
+5. The selected model bundles and `pipeline_metadata.json` are saved to the configured model directory.
+6. Validation/test scripts write metrics and predictions.
 
-### 6.2 Inference and design
+### Inference and design
 
 1. The user enters supported site and roof inputs in Streamlit.
-2. `main/model.py` reads metadata and loads the required model bundles.
-3. The truss-family model predicts `truss_family`.
-4. The rise model predicts `rise_height_ft` using base inputs plus the predicted family.
+2. `main/model.py` loads metadata and the required model bundles from `models/truss_hybrid_v4/`.
+3. The family model predicts `truss_family`.
+4. The rise model predicts `rise_height_ft` using base inputs plus predicted family.
 5. Downstream models predict pipe sizes, spacing, orientation, and counts.
-6. The application decodes outputs and applies implemented guardrails.
+6. The application decodes predictions and applies implemented guardrails.
 7. Design code builds a candidate layout.
 8. The calculator estimates preliminary BOM quantities.
 9. The UI displays results and can generate a PDF or retrieve history.
@@ -319,7 +321,7 @@ BASE_FEATURES = [
 ]
 ```
 
-The current schema excludes the constant `overhang_ft` field from model features. If `roof_configuration_detail` is missing in the source CSV, the shared schema documents a fallback of `"Unknown"` rather than fabricating a detailed value.
+The current schema excludes the constant `overhang_ft` field from model features. If `roof_configuration_detail` is missing from the source CSV, the shared schema documents a fallback of `"Unknown"` rather than fabricating a detailed value.
 
 These are model inputs, not a complete engineering design brief.
 
@@ -331,34 +333,15 @@ These are model inputs, not a complete engineering design brief.
 | 2 | `rise_height_ft` | Base features + predicted family |
 | 3 | Design targets | Base features + predicted family + predicted rise |
 
-Downstream targets:
-
-- `frame_chord_pipe_size`
-- `web_pipe_size`
-- `web_spacing_ft`
-- `web_intermediate_member_count`
-- `web_total_member_count`
-- `truss_spacing_ft`
-- `truss_total_count`
-- `column_pipe_size`
-- `column_total_count`
-- `column_spacing_along_length_ft`
-- `column_spacing_across_span_ft`
-- `beam_pipe_size`
-- `beam_total_count`
-- `purlin_pipe_size`
-- `purlin_orientation`
-- `purlin_spacing_ft`
-
-Together with family and rise, these correspond to the 18 model files shown in the screenshot.
+Downstream targets include `frame_chord_pipe_size`, `web_pipe_size`, `web_spacing_ft`, `web_intermediate_member_count`, `web_total_member_count`, `truss_spacing_ft`, `truss_total_count`, `column_pipe_size`, `column_total_count`, `column_spacing_along_length_ft`, `column_spacing_across_span_ft`, `beam_pipe_size`, `beam_total_count`, `purlin_pipe_size`, `purlin_orientation`, and `purlin_spacing_ft`.
 
 ### 7.3 Algorithms and target types
 
-The available training source supports Random Forest and optional CatBoost/XGBoost candidates. The actual winner per target is defined by the training outputs/metadata. Do not claim LightGBM is part of the current trained pipeline unless the current code and artifacts confirm it.
+The training source supports Random Forest and optional CatBoost/XGBoost candidates. The actual winner per target is defined by the training outputs and metadata. Do not claim LightGBM is part of the current pipeline unless the current code and artifacts confirm it.
 
 - **Classification:** categorical outputs such as family, pipe-size labels, and orientation.
 - **Regression:** continuous numeric outputs such as rise height.
-- **Discrete values:** if a numeric target has only a few permitted values, check whether the current pipeline treats it as classification or regression and how it decodes predictions.
+- **Discrete values:** verify whether each target is treated as classification or regression and how outputs are decoded.
 
 ### 7.4 Reported evaluation results
 
@@ -375,7 +358,7 @@ The supplied `results/truss_hybrid_v4/test_metrics.json` reports 1,500 test rows
 | Web pipe size | Accuracy | 98.73% |
 | Web spacing | Accuracy | 98.87% |
 
-These are dataset evaluation metrics, not guarantees of real-world correctness. Check the complete JSON for every target and per-class performance. High scores can occur when generated records follow deterministic rules; also check for duplicate designs, target leakage, and distribution shift.
+These are dataset metrics, not guarantees of real-world correctness. Check the full metrics file for every target and per-class performance. High scores can occur when generated records follow deterministic rules; also check for duplicates, target leakage, and distribution shift.
 
 ### 7.5 Metric definitions
 
@@ -383,38 +366,66 @@ These are dataset evaluation metrics, not guarantees of real-world correctness. 
 - **Macro F1:** equal-weight average of class-level F1 scores.
 - **Weighted F1:** class-level F1 weighted by class support.
 - **MAE:** average absolute error in the target's units.
-- **RMSE:** root mean squared error, which penalizes large errors more heavily.
-- **R²:** comparison against a constant-mean regression baseline; it is not a structural safety score.
+- **RMSE:** root mean squared error; large errors are penalized more heavily.
+- **R²:** comparison with a constant-mean regression baseline; it is not a safety score.
 
 ---
 
-## 8. Model Artifacts
+## 8. Model Artifacts and Google Drive Setup
 
-The screenshot shows 18 `.joblib` model bundles and `pipeline_metadata.json` under `models/truss_hybrid_v4/`.
+### Google Drive model folder
 
-| Artifact | Predicted field |
-|---|---|
-| `truss_family.joblib` | Truss family |
-| `rise_height_ft.joblib` | Rise height |
-| `frame_chord_pipe_size.joblib` | Frame/chord pipe size |
-| `web_pipe_size.joblib` | Web pipe size |
-| `web_spacing_ft.joblib` | Web spacing |
-| `web_intermediate_member_count.joblib` | Intermediate web-member count |
-| `web_total_member_count.joblib` | Total web-member count |
-| `truss_spacing_ft.joblib` | Truss spacing |
-| `truss_total_count.joblib` | Total truss count |
-| `column_pipe_size.joblib` | Column pipe size |
-| `column_total_count.joblib` | Total column count |
-| `column_spacing_along_length_ft.joblib` | Column spacing along building length |
-| `column_spacing_across_span_ft.joblib` | Column spacing across span |
-| `beam_pipe_size.joblib` | Beam pipe size |
-| `beam_total_count.joblib` | Beam count |
-| `purlin_pipe_size.joblib` | Purlin pipe size |
-| `purlin_orientation.joblib` | Purlin orientation |
-| `purlin_spacing_ft.joblib` | Purlin spacing |
-| `pipeline_metadata.json` | Model catalog/manifest |
+The trained models are hosted separately from GitHub to avoid committing large binary files.
 
-The manifest must match the actual filenames and schema. Keep it with bundles from the same training run. Never load untrusted `.joblib` files because pickle-based serialization can execute code during deserialization.
+**Google Drive folder:**  
+https://drive.google.com/drive/folders/1kcWxuC807X4VA5rQPKH7AXKtW15_IHlO?usp=drive_link
+
+**Download the `models` folder, not a folder named `hybrid_truss`.** The required local path is:
+
+```text
+TRUSS/
+└── models/
+    └── truss_hybrid_v4/
+        ├── beam_pipe_size.joblib
+        ├── beam_total_count.joblib
+        ├── column_pipe_size.joblib
+        ├── column_spacing_across_span_ft.joblib
+        ├── column_spacing_along_length_ft.joblib
+        ├── column_total_count.joblib
+        ├── frame_chord_pipe_size.joblib
+        ├── purlin_orientation.joblib
+        ├── purlin_pipe_size.joblib
+        ├── purlin_spacing_ft.joblib
+        ├── rise_height_ft.joblib
+        ├── truss_family.joblib
+        ├── truss_spacing_ft.joblib
+        ├── truss_total_count.joblib
+        ├── web_intermediate_member_count.joblib
+        ├── web_pipe_size.joblib
+        ├── web_spacing_ft.joblib
+        ├── web_total_member_count.joblib
+        └── pipeline_metadata.json
+```
+
+### Manual download instructions
+
+1. Open the [TRUSS AI models Google Drive folder](https://drive.google.com/drive/folders/1kcWxuC807X4VA5rQPKH7AXKtW15_IHlO?usp=drive_link).
+2. If prompted, sign in to Google.
+3. Locate the **`models` folder**. Do not select a separate `hybrid_truss` folder.
+4. Download the `models` folder. If Google Drive downloads it as a ZIP, extract it locally.
+5. Copy the extracted `models` folder into the TRUSS repository root, next to `main/`, `files/`, `DATASET/`, and `preprocessed/`.
+6. Confirm the final path is `TRUSS/models/truss_hybrid_v4/pipeline_metadata.json`.
+7. Confirm all required `.joblib` files are beside `pipeline_metadata.json`.
+8. Start the application using the command in Section 11.
+
+**Avoid an extra nested folder.** The incorrect structure would be `TRUSS/models/models/truss_hybrid_v4/`. The expected structure is `TRUSS/models/truss_hybrid_v4/`.
+
+### Model manifest and compatibility
+
+- Keep `pipeline_metadata.json` with the model bundles from the same training run.
+- Do not rename the `truss_hybrid_v4` directory unless the model path in `main/config.py` is changed too.
+- Use trusted model files only. `.joblib` uses pickle-based serialization and untrusted artifacts can execute code when loaded.
+- The model files were listed in the supplied screenshot, but their contents were not included in the source ZIP. Verify the Drive folder actually contains the files listed above before distributing the project.
 
 ---
 
@@ -441,7 +452,7 @@ The filename suggests 10,000 rows; verify the actual row count. The archive also
 - Required columns exist and are consistently named.
 - Numeric measurements parse and use consistent units.
 - Counts are valid and non-negative.
-- Pipe labels match the expected categories/catalogue.
+- Pipe labels match expected categories/catalogue.
 - Category spelling and capitalization are consistent.
 - Related/duplicate designs are grouped appropriately across splits.
 - No input feature directly or indirectly leaks a target.
@@ -513,8 +524,6 @@ models/truss_hybrid_v4/pipeline_metadata.json
 models/truss_hybrid_v4/*.joblib
 ```
 
-The model directory was shown in the screenshot but was not included in the supplied ZIP. Copy the matching, trusted model files and metadata into the expected path before inference.
-
 If port 8501 is occupied:
 
 ```bash
@@ -523,7 +532,22 @@ python -m streamlit run main/main.py --server.port 8502
 
 ---
 
-## 12. Preprocess, Train, Validate, and Test
+## 12. Download the Models from Google Drive
+
+The models are currently documented as a manual download. No automatic downloader is claimed to be included in this README.
+
+If you want to automate the download later, add and test a downloader that:
+1. Checks for the complete `models/truss_hybrid_v4/` directory.
+2. Downloads the archive only if the models are missing or incomplete.
+3. Extracts to the repository root without creating a nested `models/models/` directory.
+4. Checks all required filenames and `pipeline_metadata.json`.
+5. Handles Drive permissions, quotas, failed downloads, and corrupt ZIP files with clear errors.
+
+For a shared Google Drive folder, users may need to download the folder through the Drive UI. A folder-sharing URL is not the same as a direct-download URL for a single ZIP file.
+
+---
+
+## 13. Preprocess, Train, Validate, and Test
 
 Run commands from the project root.
 
@@ -586,7 +610,7 @@ Inspect supported options and output behavior before filtering. Preserve a backu
 
 ---
 
-## 13. Design Generation, Pipe Catalogue, and BOM
+## 14. Design Generation, Pipe Catalogue, and BOM
 
 ### Design generation
 
@@ -617,7 +641,7 @@ A qualified structural engineer must independently verify load combinations, win
 
 ---
 
-## 14. PDF Export and Result History
+## 15. PDF Export and Result History
 
 ### PDF export
 
@@ -631,18 +655,18 @@ A qualified structural engineer must independently verify load combinations, win
 
 ```text
 results/truss_hybrid_v4/
-├── training_summary.json       # Training-run summary and selected-candidate information.
-├── validation_metrics.json     # Per-target validation metrics.
-├── validation_predictions.csv  # Validation predictions for error analysis.
-├── test_metrics.json           # Per-target held-out test metrics.
-└── test_predictions.csv        # Test predictions for error analysis.
+├── training_summary.json        # Training-run summary and selected-candidate information.
+├── validation_metrics.json      # Per-target validation metrics.
+├── validation_predictions.csv   # Validation predictions for error analysis.
+├── test_metrics.json            # Per-target held-out test metrics.
+└── test_predictions.csv         # Test predictions for error analysis.
 ```
 
-After retraining, ensure that these files correspond to the same model artifacts and dataset splits being documented.
+After retraining, ensure these files correspond to the model artifacts and dataset splits being documented.
 
 ---
 
-## 15. Configuration and Data Contracts
+## 16. Configuration and Data Contracts
 
 ### `main/config.py`
 
@@ -655,7 +679,7 @@ Defines the project root and paths for:
 ### Shared schema modules
 
 - `files/truss_common.py` — training-side features, targets, paths, and ML helpers.
-- `main/truss_common.py` — separate application-side helpers; it is not automatically synchronized with the training module.
+- `main/truss_common.py` — separate application-side helpers; not automatically synchronized with the training module.
 
 ### Metadata
 
@@ -678,14 +702,17 @@ Changing only one stage can create missing-column errors or inconsistent outputs
 
 ---
 
-## 16. Troubleshooting
+## 17. Troubleshooting
 
 | Symptom | Likely cause | Recommended check |
 |---|---|---|
-| Model directory missing | Artifacts absent from expected path | Copy the model catalog into `models/truss_hybrid_v4/` |
-| Metadata missing/invalid | Incomplete model export | Restore metadata from the same training run |
-| Missing `.joblib` file | Manifest and files do not match | Compare `model_files` against actual filenames |
-| Model loading error | Dependency mismatch or corrupt artifact | Use compatible package versions and verify the file |
+| Model directory missing | Models not downloaded | Follow Section 8 and verify `models/truss_hybrid_v4/` exists |
+| Metadata missing/invalid | Incomplete model download | Restore metadata from the same training run |
+| Missing `.joblib` file | Folder download incomplete or manifest mismatch | Compare actual filenames with metadata |
+| `models/models/` created | Extra nested folder during extraction | Move `truss_hybrid_v4/` under the repository's top-level `models/` |
+| Google Drive access denied | Folder sharing settings restrict access | Check access permissions or sign in |
+| Google Drive download limit | Drive quota/traffic limit | Retry later or use a suitable model-hosting service |
+| Model loading error | Dependency mismatch or corrupt artifact | Use compatible package versions and verify files |
 | Dataset not found | Wrong working directory or missing CSV | Run from project root and check `DATASET/` |
 | Schema mismatch | CSV headers differ from shared schema | Compare headers with `files/truss_common.py` |
 | Weak rare-class results | Imbalance or distribution shift | Inspect macro-F1 and per-class metrics |
@@ -698,7 +725,7 @@ For reproducible debugging, record the exact input, expected/actual output, raw 
 
 ---
 
-## 17. Security, Reproducibility, and Engineering Limitations
+## 18. Security, Reproducibility, and Engineering Limitations
 
 ### Security
 
@@ -706,6 +733,7 @@ For reproducible debugging, record the exact input, expected/actual output, raw 
 - Do not commit credentials or private design data.
 - Review what is stored in session/history files before publishing.
 - Add authentication and access controls before exposing the app publicly.
+- Anyone with access to the shared Drive folder may be able to download and inspect the model artifacts.
 
 ### Reproducibility
 
@@ -727,7 +755,7 @@ High test metrics do not establish structural safety. Do not use this applicatio
 
 ---
 
-## 18. License
+## 19. License
 
 The supplied ZIP did not contain a `LICENSE` file. Add the appropriate license before publishing. Do not claim MIT licensing until the actual license file is included and compatible with all bundled code, datasets, drawings, and third-party assets.
 
