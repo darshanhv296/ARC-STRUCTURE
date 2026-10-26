@@ -33,7 +33,6 @@ The project combines a Streamlit interface, target-specific ML models, determini
 16. [Configuration and Data Contracts](#16-configuration-and-data-contracts)
 17. [Troubleshooting](#17-troubleshooting)
 18. [Security, Reproducibility, and Engineering Limitations](#18-security-reproducibility-and-engineering-limitations)
-19. [License](#19-license)
 
 ---
 
@@ -753,12 +752,5 @@ Models learn patterns from their dataset. Out-of-range inputs may be unreliable;
 
 High test metrics do not establish structural safety. Do not use this application as the sole basis for construction, fabrication, or certification. Obtain independent calculations and approval from a qualified structural engineer.
 
----
-
-## 19. License
-
-The supplied ZIP did not contain a `LICENSE` file. Add the appropriate license before publishing. Do not claim MIT licensing until the actual license file is included and compatible with all bundled code, datasets, drawings, and third-party assets.
-
----
 
 **TRUSS AI Design Studio — ML-assisted truss configuration, candidate visualization, and preliminary material estimation.**
